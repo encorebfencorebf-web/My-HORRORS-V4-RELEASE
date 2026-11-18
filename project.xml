@@ -5,7 +5,7 @@
 		title="bfexeOptLol" main="funkin.backend.system.Main"
 		file="bfexeOptv4" packageName="com.bfexev4.gugugaga"
 		package="com.bfexev4.gugugaga"
-		version="0.9.0" company="bfexev4" />
+		version="0.1.0" company="bfexev4" />
 
 	<!--
 		CHANGE THE SAVE PATH & NAME FOR YOUR MOD HERE!
