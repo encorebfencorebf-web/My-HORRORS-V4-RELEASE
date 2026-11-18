@@ -2,15 +2,15 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 	<app
-		title="Codename Engine Legacy" main="funkin.backend.system.Main"
-		file="CodenameEngine" packageName="com.yoshman29.codenameenginelegacy"
-		package="com.yoshman29.codenameenginelegacy"
-		version="0.1.0" company="Yoshman29" />
+		title="bfexeOptLol" main="funkin.backend.system.Main"
+		file="bfexeOptv4" packageName="com.bfexev4.gugugaga"
+		package="com.bfexev4.gugugaga"
+		version="0.9.0" company="bfexev4" />
 
 	<!--
 		CHANGE THE SAVE PATH & NAME FOR YOUR MOD HERE!
 	-->
-	<app save-path="YoshiCrafter29/CodenameEngine" save-name="save-default" mod-saves="true" />
+	<app save-path="bfexeOptv4" save-name="save-default" mod-saves="true" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
