@@ -27,6 +27,7 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	var versionText:FunkinText;
+	var creditText:FunkinText;
 
 	var devModeWarning:FunkinText;
 
@@ -83,6 +84,13 @@ class MainMenuState extends MusicBeatState
 		versionText.y -= versionText.height;
 		versionText.scrollFactor.set();
 		add(versionText);
+
+		// Credit kecil di tengah atas
+		creditText = new FunkinText(0, 4, FlxG.width, "PORT OPTIMIZED\nBFEXEOPT", 16);
+		creditText.alignment = CENTER;
+		creditText.alpha = 0.7;
+		creditText.scrollFactor.set();
+		add(creditText);
 
 		changeItem();
 
