@@ -1,3 +1,4 @@
+
 package funkin.options;
 
 import funkin.editors.ui.UIState;
@@ -17,23 +18,53 @@ class TreeMenu extends UIState {
 	public var pathDesc:FunkinText;
 	public var pathBG:FlxSprite;
 
-	public static var lastState:Class<FlxState> = null;  // Static for fixing the softlock bugs when resetting the state  - Nex
+	public static var lastState:Class<FlxState> = null;
 
 	public function new(scriptsAllowed:Bool = true, ?scriptName:String) {
-		if(lastState == null) lastState = Type.getClass(FlxG.state);
+		if (lastState == null)
+			lastState = Type.getClass(FlxG.state);
+
 		super(scriptsAllowed, scriptName);
 	}
 
 	public override function createPost() {
-		if (main == null) main = new OptionsScreen("Fallback Treemenu", "Please set the \"main\" variable in your extended class before createPost", [new TextOption("Oops! No Options", "This doesn't look like it was supposed to happen...", () -> FlxG.resetState() ) ]);
+		if (main == null) {
+			main = new OptionsScreen(
+				"Fallback Treemenu",
+				"Please set the \"main\" variable in your extended class before createPost",
+				[
+					new TextOption(
+						"Oops! No Options",
+						"This doesn't look like it was supposed to happen...",
+						() -> FlxG.resetState()
+					)
+				]
+			);
+		}
 
 		FlxG.camera.scroll.set(-FlxG.width, 0);
 
-		pathLabel = new FunkinText(4, 4, FlxG.width - 8, "> Tree Menu", 32, true);
+		pathLabel = new FunkinText(
+			4,
+			4,
+			FlxG.width - 8,
+			"> Tree Menu",
+			32,
+			true
+		);
+
 		pathLabel.borderSize = 1.25;
 		pathLabel.scrollFactor.set();
 
-		pathDesc = new FunkinText(4, pathLabel.y + pathLabel.height + 2, FlxG.width - 8, "Current Tree Menu Description", 16, true);
+		pathDesc = new FunkinText(
+			4,
+			pathLabel.y + pathLabel.height + 2,
+			FlxG.width - 8,
+			"Current Tree Menu Description",
+			16,
+			true
+		);
+
 		pathDesc.scrollFactor.set();
 
 		pathBG = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
@@ -45,15 +76,16 @@ class TreeMenu extends UIState {
 		optionsTree = new OptionsTree();
 		optionsTree.onMenuChange = onMenuChange;
 		optionsTree.onMenuClose = onMenuClose;
-		optionsTree.treeParent = this;
-		optionsTree.add(main);
 
+		// Callback instead of a direct TreeMenu reference in OptionsTree
+		optionsTree.updateDescCallback = updateDesc;
+
+		optionsTree.add(main);
 
 		add(optionsTree);
 		add(pathBG);
 		add(pathLabel);
 		add(pathDesc);
-
 
 		super.createPost();
 	}
@@ -65,30 +97,59 @@ class TreeMenu extends UIState {
 			if (menuChangeTween != null)
 				menuChangeTween.cancel();
 
-			menuChangeTween = FlxTween.tween(FlxG.camera.scroll, {x: FlxG.width * Math.max(0, (optionsTree.members.length-1))}, 1.5, {ease: menuTransitionEase, onComplete: function(t) {
-				optionsTree.clearLastMenu();
-				menuChangeTween = null;
-			}});
+			menuChangeTween = FlxTween.tween(
+				FlxG.camera.scroll,
+				{
+					x: FlxG.width * Math.max(
+						0,
+						(optionsTree.members.length - 1)
+					)
+				},
+				1.5,
+				{
+					ease: menuTransitionEase,
+					onComplete: function(t) {
+						optionsTree.clearLastMenu();
+						menuChangeTween = null;
+					}
+				}
+			);
 
 			var t = "";
-			for(o in optionsTree.members)
+
+			for (o in optionsTree.members)
 				t += '${o.name} > ';
+
 			pathLabel.text = t;
 
 			var idk:OptionsScreen = optionsTree.members.last();
-			if (idk.members.length > 0) updateDesc(idk.members[idk.curSelected].desc);
+
+			if (idk.members.length > 0)
+				updateDesc(idk.members[idk.curSelected].desc);
 		}
 	}
 
 	public function updateDesc(moreTxt:String = '') {
 		pathDesc.text = optionsTree.members.last().desc;
-		if (moreTxt != null && moreTxt.length > 0) pathDesc.text += '\n' + moreTxt;
-		pathBG.scale.set(FlxG.width, pathDesc.y + pathDesc.height + 2);
+
+		if (moreTxt != null && moreTxt.length > 0)
+			pathDesc.text += '\n' + moreTxt;
+
+		pathBG.scale.set(
+			FlxG.width,
+			pathDesc.y + pathDesc.height + 2
+		);
+
 		pathBG.updateHitbox();
 	}
 
 	public function exit() {
-		FlxG.switchState((lastState != null) ? Type.createInstance(lastState, []) : new MainMenuState());
+		FlxG.switchState(
+			(lastState != null)
+				? Type.createInstance(lastState, [])
+				: new MainMenuState()
+		);
+
 		lastState = null;
 	}
 
@@ -97,13 +158,18 @@ class TreeMenu extends UIState {
 	}
 
 	var menuChangeTween:FlxTween;
+
 	public override function update(elapsed:Float) {
 		super.update(elapsed);
-		
+
 		Framerate.offset.y = pathBG.height;
 
-		// in case path gets so long it goes offscreen
-		pathLabel.x = lerp(pathLabel.x, Math.max(0, FlxG.width - 4 - pathLabel.width), 0.125);
+		// In case path gets so long it goes offscreen
+		pathLabel.x = lerp(
+			pathLabel.x,
+			Math.max(0, FlxG.width - 4 - pathLabel.width),
+			0.125
+		);
 	}
 
 	public static inline function menuTransitionEase(e:Float)
