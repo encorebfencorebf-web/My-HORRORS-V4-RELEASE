@@ -1,11 +1,11 @@
+
 package funkin.options;
 
 class OptionsTree extends FlxTypedGroup<OptionsScreen> {
 	public var lastMenu:OptionsScreen;
-	public var treeParent:TreeMenu;
-	//public override function new() {
-	//	super();
-	//}
+
+	// Callback to update the TreeMenu description without directly referencing TreeMenu.
+	public var updateDescCallback:String->Void;
 
 	public override function update(elapsed:Float) {
 		var last = members.last();
@@ -13,12 +13,11 @@ class OptionsTree extends FlxTypedGroup<OptionsScreen> {
 			last.update(elapsed);
 	}
 
-
 	public override function draw() {
 		super.draw();
-		if (lastMenu != null) {
+
+		if (lastMenu != null)
 			lastMenu.draw();
-		}
 	}
 
 	public override function add(m:OptionsScreen) {
@@ -28,12 +27,16 @@ class OptionsTree extends FlxTypedGroup<OptionsScreen> {
 		onMenuChange();
 		return m;
 	}
+
 	public override function insert(pos:Int, m:OptionsScreen) {
 		var last = members.last();
+
 		super.insert(pos, m);
 		setup(m);
+
 		if (last != members.last())
 			onMenuChange();
+
 		return m;
 	}
 
@@ -61,10 +64,7 @@ class OptionsTree extends FlxTypedGroup<OptionsScreen> {
 		lastMenu = FlxDestroyUtil.destroy(lastMenu);
 	}
 
-	public dynamic function onMenuChange() {
+	public dynamic function onMenuChange() {}
 
-	}
-
-	public dynamic function onMenuClose(m:OptionsScreen) {
-	}
+	public dynamic function onMenuClose(m:OptionsScreen) {}
 }
