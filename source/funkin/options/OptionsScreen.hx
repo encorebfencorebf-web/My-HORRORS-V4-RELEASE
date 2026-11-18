@@ -1,3 +1,4 @@
+
 package funkin.options;
 
 import funkin.options.type.OptionType;
@@ -21,7 +22,7 @@ class OptionsScreen extends FlxTypedSpriteGroup<OptionType> {
 		this.name = name;
 		this.desc = desc;
 
-		//fix custom controls
+		// Fix custom controls
 		if (menuMPadModes == null) {
 			final state = MusicBeatState.instance;
 			this.prevMenuMPadModes = ["UP_DOWN", "A_B"];
@@ -31,11 +32,15 @@ class OptionsScreen extends FlxTypedSpriteGroup<OptionType> {
 			state.addButtonCamera();
 		}
 
-		if (menuMPadModes != null)
-		{
+		if (menuMPadModes != null) {
 			final state = MusicBeatState.instance;
+
 			if (state != null && state.mobileManager != null) {
-				this.prevMenuMPadModes = [state.mobileManager.curDPadMode, state.mobileManager.curActionMode];
+				this.prevMenuMPadModes = [
+					state.mobileManager.curDPadMode,
+					state.mobileManager.curActionMode
+				];
+
 				state.removeDPad();
 				state.removeButton();
 
@@ -46,7 +51,9 @@ class OptionsScreen extends FlxTypedSpriteGroup<OptionType> {
 			}
 		}
 
-		if (options != null) for(o in options) add(o);
+		if (options != null)
+			for (o in options)
+				add(o);
 	}
 
 	public override function update(elapsed:Float) {
@@ -54,17 +61,45 @@ class OptionsScreen extends FlxTypedSpriteGroup<OptionType> {
 
 		var controls = PlayerSettings.solo.controls;
 
-		changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
-		x = id * FlxG.width;
-		for(k=>option in members) {
-			if(option == null) continue;
+		changeSelection(
+			(controls.UP_P ? -1 : 0)
+			+ (controls.DOWN_P ? 1 : 0)
+			- FlxG.mouse.wheel
+		);
 
-			var y:Float = ((FlxG.height - optionHeight) / 2) + ((k - curSelected) * optionHeight);
+		x = id * FlxG.width;
+
+		for (k => option in members) {
+			if (option == null)
+				continue;
+
+			var y:Float = ((FlxG.height - optionHeight) / 2)
+				+ ((k - curSelected) * optionHeight);
 
 			option.selected = false;
-			option.y = __firstFrame ? y : CoolUtil.fpsLerp(option.y, y, 0.25);
-			option.x = x + (-50 + (Math.abs(Math.cos((option.y + (optionHeight / 2) - (FlxG.camera.scroll.y + (FlxG.height / 2))) / (FlxG.height * 1.25) * Math.PI)) * 150));
+
+			option.y = __firstFrame
+				? y
+				: CoolUtil.fpsLerp(option.y, y, 0.25);
+
+			option.x = x + (
+				-50
+				+ (
+					Math.abs(
+						Math.cos(
+							(
+								option.y
+								+ (optionHeight / 2)
+								- (FlxG.camera.scroll.y + (FlxG.height / 2))
+							)
+							/ (FlxG.height * 1.25)
+							* Math.PI
+						)
+					) * 150
+				)
+			);
 		}
+
 		if (__firstFrame) {
 			__firstFrame = false;
 			return;
@@ -72,13 +107,24 @@ class OptionsScreen extends FlxTypedSpriteGroup<OptionType> {
 
 		if (members.length > 0) {
 			members[curSelected].selected = true;
-			if (controls.ACCEPT || (FlxG.mouse.justReleased && !funkin.backend.system.Controls.instance.mobileC && Main.timeSinceFocus > 0.25))
+
+			if (
+				controls.ACCEPT
+				|| (
+					FlxG.mouse.justReleased
+					&& !funkin.backend.system.Controls.instance.mobileC
+					&& Main.timeSinceFocus > 0.25
+				)
+			)
 				members[curSelected].onSelect();
+
 			if (controls.LEFT_P)
 				members[curSelected].onChangeSelection(-1);
+
 			if (controls.RIGHT_P)
 				members[curSelected].onChangeSelection(1);
 		}
+
 		if (controls.BACK || FlxG.mouse.justReleasedRight)
 			close();
 	}
@@ -86,33 +132,46 @@ class OptionsScreen extends FlxTypedSpriteGroup<OptionType> {
 	public function close() {
 		onClose(this);
 
-		if (prevMenuMPadModes.length > 0)
-		{
+		if (prevMenuMPadModes.length > 0) {
 			final state = MusicBeatState.instance;
+
 			if (state != null && state.mobileManager != null) {
 				state.removeDPad();
 				state.removeButton();
+
 				state.addDPad(prevMenuMPadModes[0]);
 				state.addButton(prevMenuMPadModes[1]);
 				state.addDPadCamera();
 				state.addButtonCamera();
 			}
-			
 		}
 	}
 
 	public function changeSelection(sel:Int, force:Bool = false) {
-		if (members.length <= 0 || (sel == 0 && !force)) return;
+		if (members.length <= 0 || (sel == 0 && !force))
+			return;
 
 		CoolUtil.playMenuSFX(SCROLL);
-		curSelected = FlxMath.wrap(curSelected + sel, 0, members.length-1);
+
+		curSelected = FlxMath.wrap(
+			curSelected + sel,
+			0,
+			members.length - 1
+		);
+
 		members[curSelected].selected = true;
 		updateMenuDesc();
 	}
 
 	public function updateMenuDesc(?customTxt:String) {
-		if (parent == null || parent.treeParent == null) return;
-		parent.treeParent.updateDesc(customTxt != null ? customTxt : members[curSelected].desc);
+		if (parent == null || parent.updateDescCallback == null)
+			return;
+
+		parent.updateDescCallback(
+			customTxt != null
+				? customTxt
+				: members[curSelected].desc
+		);
 	}
 
 	public dynamic function onClose(o:OptionsScreen) {}
