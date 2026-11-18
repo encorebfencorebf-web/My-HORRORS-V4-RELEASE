@@ -1,8 +1,9 @@
+
 package funkin.editors;
 
 import funkin.menus.MainMenuState;
 import flixel.addons.display.FlxBackdrop;
-import funkin.options.*;
+import funkin.options.TreeMenu;
 
 class EditorTreeMenu extends TreeMenu {
 	public var bg:FlxBackdrop;
@@ -17,6 +18,7 @@ class EditorTreeMenu extends TreeMenu {
 		bg = new FlxBackdrop();
 		bg.loadGraphic(Paths.image('editors/bgs/${bgType}'));
 		bg.antialiasing = true;
+
 		setBackgroundRotation(-5);
 		add(bg);
 	}
