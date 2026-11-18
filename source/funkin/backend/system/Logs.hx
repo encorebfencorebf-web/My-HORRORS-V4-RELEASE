@@ -146,8 +146,12 @@ class Logs {
 		#end
 	}
 
-	public static function traceColored(text:Array<LogText>, level:Level = INFO)
+	// DIUBAH: pesan ERROR juga dikirim ke ErrorOverlay (UI error)
+	public static function traceColored(text:Array<LogText>, level:Level = INFO) {
+		if (level == ERROR)
+			ErrorOverlay.show([for (t in text) t.text].join(""));
 		__showInConsole(prepareColoredTrace(text, level));
+	}
 
 	public static function trace(text:String, level:Level = INFO, color:ConsoleColor = LIGHTGRAY) {
 		traceColored([
