@@ -2,15 +2,15 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 	<app
-		title="BFexeOpt v4" main="funkin.backend.system.Main"
-		file="BFEXEOPTV4" packageName="com.bfexev4.horrorbob"
-		package="com.bfexev4.horrorbob"
-		version="0.1.0" company="bfexev4" />
+		title="Codename Engine Legacy" main="funkin.backend.system.Main"
+		file="CodenameEngine" packageName="com.yoshman29.codenameenginelegacy"
+		package="com.yoshman29.codenameenginelegacy"
+		version="0.1.0" company="Yoshman29" />
 
 	<!--
 		CHANGE THE SAVE PATH & NAME FOR YOUR MOD HERE!
 	-->
-	<app save-path="BFEXEOPTV4" save-name="save-default" mod-saves="true" />
+	<app save-path="YoshiCrafter29/CodenameEngine" save-name="save-default" mod-saves="true" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -127,8 +127,7 @@
 	<define name="CUSTOM_CLASSES" />
 
 	<!-- Comment this out to disable multithreading !-->
-	<!-- FIX TEST: multithreading dimatikan di mobile (diduga penyebab freeze saat pindah state) -->
-	<haxedef name="ALLOW_MULTITHREADING" unless="web || flash || mobile" />
+	<haxedef name="ALLOW_MULTITHREADING" unless="web || flash" />
 
 	<!-- Comment this out to disable titlescreen.xml !-->
 	<haxedef name="TITLESCREEN_XML" />
@@ -175,8 +174,7 @@
 	<haxedef name="SOFTCODED_CLASSES" if="SOFTCODED_CLASSES" />
 	<haxedef name="openfl_dpi_aware" if="openfl_dpi_aware" />
 
-	<!-- FIX TEST: fix experimental ini dimatikan di mobile -->
-	<haxedef name="EXPERIMENTAL_FLXGRAPHIC_DESTROY_FIX" unless="mobile" />
+	<haxedef name="EXPERIMENTAL_FLXGRAPHIC_DESTROY_FIX" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
