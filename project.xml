@@ -3,7 +3,7 @@
 	<!-- _________________________ Application Settings _________________________ -->
 	<app
 		title="BFexeOpt v4" main="funkin.backend.system.Main"
-		file="BFEXEOPTv4" packageName="com.bfexev4.horrorbob"
+		file="BFEXEOPTV4" packageName="com.bfexev4.horrorbob"
 		package="com.bfexev4.horrorbob"
 		version="0.1.0" company="bfexev4" />
 
