@@ -127,7 +127,8 @@
 	<define name="CUSTOM_CLASSES" />
 
 	<!-- Comment this out to disable multithreading !-->
-	<haxedef name="ALLOW_MULTITHREADING" unless="web || flash" />
+	<!-- FIX TEST: multithreading dimatikan di mobile (diduga penyebab freeze saat pindah state) -->
+	<haxedef name="ALLOW_MULTITHREADING" unless="web || flash || mobile" />
 
 	<!-- Comment this out to disable titlescreen.xml !-->
 	<haxedef name="TITLESCREEN_XML" />
@@ -174,7 +175,8 @@
 	<haxedef name="SOFTCODED_CLASSES" if="SOFTCODED_CLASSES" />
 	<haxedef name="openfl_dpi_aware" if="openfl_dpi_aware" />
 
-	<haxedef name="EXPERIMENTAL_FLXGRAPHIC_DESTROY_FIX" />
+	<!-- FIX TEST: fix experimental ini dimatikan di mobile -->
+	<haxedef name="EXPERIMENTAL_FLXGRAPHIC_DESTROY_FIX" unless="mobile" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
