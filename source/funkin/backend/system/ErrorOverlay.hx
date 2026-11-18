@@ -17,6 +17,9 @@ class ErrorOverlay extends Sprite {
 		"asset with an ID of" // asset tidak ditemukan, misalnya font
 	];
 
+	/** Tulisan credit kecil di tengah atas. */
+	public static var credit:String = "bf.Exe_Opt pr0gr4m";
+
 	static var queue:Array<String> = [];
 	static var instance:ErrorOverlay;
 	static var inited:Bool = false;
@@ -66,6 +69,9 @@ class ErrorOverlay extends Sprite {
 		graphics.beginFill(0x000000, 0.88);
 		graphics.drawRect(0, 0, w, h);
 		graphics.endFill();
+
+		// Credit kecil di tengah atas
+		addChild(makeText(credit, Std.int(h * 0.028), 0x888888, 0, h * 0.015, w, h * 0.05, CENTER));
 
 		addChild(makeText("ERROR", Std.int(h * 0.06), 0xFF5555, margin, h * 0.08, w - margin * 2, h * 0.1, LEFT));
 
